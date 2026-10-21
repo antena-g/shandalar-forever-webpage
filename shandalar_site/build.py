@@ -28,7 +28,9 @@ SCREENSHOT_CAPTIONS = [
     ("title-menu.webp", "The title screen"),
     ("choose-your-visage.webp", "Choosing your visage"),
 ]
-DEFAULT_GAME_ASSETS = WEBSITE.parent / "shandalar-forever" / "assets" / "original"
+# The game files the site uses, copied from the game repository by
+# scripts/sync_game_assets.py.
+DEFAULT_GAME_ASSETS = WEBSITE / "game-assets"
 
 # Links shown on the download page. While a link is empty, the page says it is
 # coming soon instead of showing a broken button.

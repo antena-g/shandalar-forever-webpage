@@ -11,8 +11,8 @@ uv run shandalar-site build      # only build, into _site/
 
 Without uv: `pip install -e .`, then `python -m shandalar_site serve`.
 
-Options: `--out` for the build folder, `--assets` for another copy of the
-game assets, `--port` for the preview server.
+Options: `--out` for the build folder, `--assets` to build from another
+folder of game assets instead of `game-assets/`, `--port` for the preview server.
 
 `_site/` is plain static files, so it can be hosted on any static host
 (GitHub Pages, Netlify, an nginx folder).
@@ -32,6 +32,8 @@ game assets, `--port` for the preview server.
 | `content/devlog/` | Dev log posts in Markdown |
 | `content/creatures.csv` | The game's creature table, extracted once from `MAGIC.EXE` |
 | `content/screenshots/` | Screenshots of the browser build, listed in `build.py` |
+| `game-assets/` | The game files the site uses, copied from the game repository |
+| `scripts/sync_game_assets.py` | Refreshes `game-assets/` from `../shandalar-forever/assets/original/` |
 | `scripts/extract_creatures.py` | Rebuilds `creatures.csv` from the reference game |
 
 ## Writing a dev log post
