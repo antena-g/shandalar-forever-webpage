@@ -1,12 +1,6 @@
 # Shandalar Forever website
 
-A static website for Shandalar Forever, dressed in the art of the 1997 game. It
-has a landing page, a lore page, a bestiary, a card archive, a download
-page and a dev log.
-
-A small Python program renders Jinja templates into plain HTML. It takes
-the art, fonts and card data from `../shandalar-forever/assets/original/`
-and never changes anything there.
+A static website for Shandalar Forever, dressed in the art of the 1997 game.
 
 ## Build and preview
 
