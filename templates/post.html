@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — Shandalar Forever{% endblock %}
+{% block description %}{{ post.summary }}{% endblock %}
+
+{% block content %}
+<article class="section narrow">
+  <header class="post-header">
+    <time datetime="{{ post.date.isoformat() }}">{{ post.date.strftime("%-d %B %Y") }}</time>
+    <h1>{{ post.title }}</h1>
+  </header>
+  <div class="panel prose">
+    {{ post.body }}
+  </div>
+  <p><a class="button" href="{{ root }}devlog.html">&larr; All entries</a></p>
+</article>
+{% endblock %}

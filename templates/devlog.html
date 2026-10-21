@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Dev Log — Shandalar Forever{% endblock %}
+
+{% block content %}
+<section class="section narrow">
+  <h1 class="plaque plaque--center">Dev Log</h1>
+  <p class="section__intro">Notes from the road to a native Shandalar.</p>
+  <div class="post-list post-list--stacked">
+    {% for post in posts %}
+    <a class="panel panel--stone post-teaser" href="devlog/{{ post.slug }}.html">
+      <time datetime="{{ post.date.isoformat() }}">{{ post.date.strftime("%-d %B %Y") }}</time>
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.summary }}</p>
+    </a>
+    {% else %}
+    <p class="panel">No entries yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

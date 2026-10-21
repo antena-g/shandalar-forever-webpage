@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block title %}Cards — Shandalar Forever{% endblock %}
+{% block description %}Browse the {{ cards | length }} illustrated cards of the original 1997 Shandalar.{% endblock %}
+
+{% block content %}
+<section class="section">
+  <h1 class="plaque plaque--center">The Card Archive</h1>
+  <p class="section__intro">
+    Every illustrated card in the original game's catalogue, with its art, rules
+    and flavour text taken straight from the 1997 files. Select a card to see it
+    up close.
+  </p>
+
+  <form class="panel panel--stone card-filters" data-card-filters>
+    <label class="card-filters__search">
+      <span class="visually-hidden">Search by name or rules text</span>
+      <input type="search" name="query" placeholder="Search names and rules…" autocomplete="off">
+    </label>
+    <fieldset class="card-filters__colors">
+      <legend class="visually-hidden">Colour</legend>
+      <label><input type="radio" name="color" value="" checked><span>All</span></label>
+      {% for color, symbol in color_filters %}
+      <label title="{{ color | capitalize }}">
+        <input type="radio" name="color" value="{{ color }}">
+        <span>{% if symbol %}{{ symbol | mana }}<span class="visually-hidden">{{ color }}</span>{% else %}{{ color | capitalize }}{% endif %}</span>
+      </label>
+      {% endfor %}
+    </fieldset>
+    <label class="card-filters__type">
+      <span class="visually-hidden">Card type</span>
+      <select name="type">
+        <option value="">All types</option>
+        {% for type in cards | map(attribute="type") | unique | sort %}
+        <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <p class="card-filters__count" aria-live="polite" data-card-count>{{ cards | length }} cards</p>
+  </form>
+
+  <ul class="card-grid" data-card-grid>
+    {% for c in cards %}
+    <li data-name="{{ c.name | lower }}" data-rules="{{ c.rules | lower }}"
+        data-color="{{ c.color }}" data-type="{{ c.type }}">
+      <button type="button" class="card-button">
+        {{ card(c) }}
+      </button>
+      {% if c.flavor %}<template class="card-flavor">{{ c.flavor }}</template>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  <p class="empty-state panel" data-card-empty hidden>No card in the archive matches that search.</p>
+</section>
+
+<dialog class="card-dialog" data-card-dialog aria-label="Card details">
+  <div class="card-dialog__body">
+    <div class="card-dialog__card" data-dialog-card></div>
+    <p class="card-dialog__flavor" data-dialog-flavor></p>
+    <form method="dialog"><button class="button" autofocus>Close</button></form>
+  </div>
+</dialog>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ root }}js/cards.js" defer></script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}The World — Shandalar Forever{% endblock %}
+{% block description %}The story of Shandalar: the Great Barrier, the five Guild Lords and the planeswalker Arzakon.{% endblock %}
+
+{% block content %}
+<section class="hero hero--short">
+  <img class="hero__image" src="{{ root }}img/spellbook.webp" alt="" width="640" height="480">
+  <div class="hero__text">
+    <p class="hero__eyebrow">Adapted from the 1997 game manual</p>
+    <h1 class="hero__title">The Chronicle of Shandalar</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="split">
+    <article class="panel">
+      <h2 class="plaque">The Great Barrier</h2>
+      <p>
+        Shandalar is a small plane rich in <em>living mana</em>, magic so strong it
+        seems almost aware. Long ago the necromancer Lim-Dul tried to make it his
+        own, and he was stopped by Kenan Sahrmal, Shandalar's greatest hero, and his
+        pupil Azaar.
+      </p>
+      <p>
+        Azaar's last spell was meant to raise a temporary ward around the plane.
+        Instead it caught Lim-Dul's spirit and his own in Azaar's body, and drew on
+        both to raise the <strong>Great Barrier</strong>, a wall that no
+        planeswalker could break. As long as Lim-Dul stays imprisoned, the barrier
+        holds.
+      </p>
+      <p>
+        Sahrmal gave the last of his power to his second apprentice, who became the
+        immortal <strong>Guardian</strong>. With the plane's greatest wizards, the
+        Guardian founded five guilds, one for each colour of magic, to teach it and
+        keep it from being abused.
+      </p>
+    </article>
+    <figure class="framed-art">
+      <img src="{{ root }}img/standing-stones.webp" alt="Standing stones in a green, misty land" width="512" height="280">
+    </figure>
+  </div>
+</section>
+
+<section class="section section--dark" style="background-image: url('{{ root }}img/cavern.webp')">
+  <article class="panel panel--stone narrow">
+    <h2 class="plaque">Arzakon</h2>
+    <p>
+      Far across the multiverse, a planeswalker named <strong>Arzakon</strong>
+      felt the echoes of Shandalar's wars and came looking for their source. The
+      Guardian threw it back at the barrier. Arzakon did not give up. Over many
+      years it slipped part of its spirit through and began to whisper to the
+      Guild Lords.
+    </p>
+    <p>
+      At a conclave called over some small dispute, the five Lords rose as one
+      and struck the Guardian down. Arzakon then set them a race: whoever gathers
+      enough magic will learn the <strong>Spell of Dominion</strong> and rule
+      Shandalar forever.
+    </p>
+    <blockquote>
+      The Spell of Dominion will do nothing more than seek out the source of the
+      Great Barrier … and destroy it.
+    </blockquote>
+    <p>
+      An old oneiromancer, touched by what is left of the Guardian's spirit, has
+      seen the truth in her dreams. The first person she could convince was a
+      wandering amateur spellcaster: you.
+    </p>
+  </article>
+</section>
+
+<section class="section">
+  <h2 class="plaque plaque--center">The five Guild Lords</h2>
+  <div class="lords">
+    {% for lord in lords %}
+    <article class="lord panel lord--{{ lord.color }}" id="{{ lord.color }}">
+      <img class="lord__portrait" src="{{ root }}{{ lord.portrait }}" alt="" width="120" height="88">
+      <div>
+        <p class="lord__guild">
+          <img src="{{ root }}{{ lord.orb }}" alt="" width="48" height="24">
+          {{ lord.guild }}
+        </p>
+        <h3 class="lord__name">{{ lord.name }}</h3>
+        <p class="lord__title">{{ lord.title }}</p>
+        <p>{{ lord.blurb }}</p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="split split--reverse">
+    <article class="panel">
+      <h2 class="plaque">Your journey</h2>
+      <p>
+        You start with a weak deck, a little gold and a lot of land to cross. On
+        the way you will find:
+      </p>
+      <ul class="checklist">
+        <li><strong>Towns and villages</strong> that sell cards and food, offer quests and ask for help</li>
+        <li><strong>Wandering creatures</strong> sent by the Guild Lords, each with its own deck</li>
+        <li><strong>Dungeons</strong> full of monsters and rare cards</li>
+        <li><strong>Castles</strong> where the Guild Lords wait</li>
+      </ul>
+      <p>
+        Every fight is a game of Magic played for ante. Beat all five Lords
+        before their minions take over Shandalar's towns, and then face Arzakon
+        itself.
+      </p>
+    </article>
+    <figure class="framed-art">
+      <img src="{{ root }}img/castle-dusk.webp" alt="A castle against a red sunset" width="512" height="280">
+    </figure>
+  </div>
+</section>
+{% endblock %}

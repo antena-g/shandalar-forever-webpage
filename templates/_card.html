@@ -1,0 +1,18 @@
+{# A card drawn the way the game draws it: frame, art, name, cost and text box. #}
+{% macro card(card) %}
+<article class="card card--{{ card.color }} card--{{ card.text_length }}"
+         style="background-image: url('{{ root }}img/frames/card-{{ card.frame }}.webp')"
+         aria-label="{{ card.name }}">
+  <img class="card__art" src="{{ root }}img/cards/{{ card.art }}.webp"
+       alt="" loading="lazy" width="288" height="232">
+  <div class="card__header">
+    <h3 class="card__name">{{ card.name }}</h3>
+    <p class="card__cost">{% for symbol in card.cost %}{{ symbol | mana }}{% endfor %}</p>
+  </div>
+  <p class="card__type">{{ card.type_line }}</p>
+  <div class="card__text">{{ card.rules | rules }}</div>
+  {% if card.is_creature %}
+  <p class="card__stats">{{ card.stats }}</p>
+  {% endif %}
+</article>
+{% endmacro %}

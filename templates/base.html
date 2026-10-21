@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Shandalar Forever{% endblock %}</title>
+  <meta name="description" content="{% block description %}Shandalar Forever is a native rewrite of MicroProse's 1997 Magic: The Gathering adventure, Shandalar.{% endblock %}">
+  <link rel="icon" href="{{ root }}img/compass.png">
+  <link rel="stylesheet" href="{{ root }}css/site.css">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="site-header">
+    <a class="site-header__logo" href="{{ root }}index.html">
+      <img src="{{ root }}img/compass.png" alt="" width="28" height="44">
+      Shandalar Forever
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      {% for href, label in [("index.html", "Home"), ("world.html", "The World"), ("cards.html", "Cards"), ("devlog.html", "Dev Log")] %}
+      <a class="button{% if page == href or (href == 'devlog.html' and page.startswith('devlog/')) %} button--current{% endif %}" href="{{ root }}{{ href }}">{{ label }}</a>
+      {% endfor %}
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Shandalar Forever is a fan project and is not affiliated with or endorsed by
+      Wizards of the Coast or MicroProse. Magic: The Gathering is a trademark of
+      Wizards of the Coast. The original Shandalar artwork, fonts and card text shown
+      here come from the 1997 MicroProse game.
+    </p>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <img class="hero__image" src="{{ root }}img/title.webp" alt="" width="640" height="480">
+  <div class="hero__text">
+    <p class="hero__eyebrow">A native rewrite of the 1997 MicroProse classic</p>
+    <h1 class="hero__title">Shandalar Forever</h1>
+    <p class="hero__lead">
+      Wander the plane of Shandalar, duel its wizards for ante, and stand alone
+      against the planeswalker Arzakon — rebuilt from the ground up to run natively
+      on Linux and in the browser.
+    </p>
+    <p class="hero__actions">
+      <a class="button button--large" href="#play">Build &amp; play</a>
+      <a class="button button--large" href="world.html">Enter the world</a>
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="split">
+    <div class="panel">
+      <h2 class="plaque">A plane worth saving</h2>
+      <p>
+        In 1997, MicroProse released <em>Magic: The Gathering</em> for the PC and
+        hid something remarkable inside it: <strong>Shandalar</strong>, a whole
+        adventure built around the card game. You roam an overworld of towns,
+        dungeons and castles, buy and trade cards, take on quests, and win every
+        fight with a Magic duel, where the loser forfeits the ante.
+      </p>
+      <p>
+        Five Guild Lords race to cast the Spell of Dominion, not knowing that it
+        is a trap set by Arzakon. Only you, a wandering novice spellcaster, know
+        the truth.
+      </p>
+      <p><a class="link" href="world.html">Read the chronicle of Shandalar &rarr;</a></p>
+    </div>
+    <figure class="framed-art">
+      <img src="{{ root }}img/celeb.webp" alt="A crowd of Shandalar's creatures — goblins, knights, faeries and orcs — from the original game" width="640" height="480">
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="plaque plaque--center">What is Shandalar Forever?</h2>
+  <div class="features">
+    <article class="panel panel--stone feature">
+      <img src="{{ root }}img/icons/castle.png" alt="" width="96" height="72">
+      <h3>Faithful to 1997</h3>
+      <p>
+        The original artwork, layouts and interaction style are the reference.
+        Each feature is checked against the recovered 1.0 game, with traces of
+        its behaviour and side-by-side screenshots.
+      </p>
+    </article>
+    <article class="panel panel--stone feature">
+      <img src="{{ root }}img/icons/tent.png" alt="" width="96" height="72">
+      <h3>Native, not emulated</h3>
+      <p>
+        No Wine and no Windows modules. The game is written in Rust with the
+        Fyrox engine, and the same build also runs in the browser through
+        WebAssembly.
+      </p>
+    </article>
+    <article class="panel panel--stone feature">
+      <img src="{{ root }}img/icons/cave.png" alt="" width="96" height="72">
+      <h3>Rules you can test</h3>
+      <p>
+        Card rules and campaign state live in a portable Rust core with no
+        engine code inside it, so every rule can be tested headless with
+        <code>cargo test</code>.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="split split--even">
+    <div class="panel">
+      <h2 class="plaque">Playable today</h2>
+      <ul class="checklist checklist--done">
+        <li>Menus, difficulty, colour and character creation</li>
+        <li>Walking the overworld with the original movement, terrain and sprites</li>
+        <li>The world map (F2) that only shows what you have explored</li>
+        <li>Arriving at Hornwell Mill and leaving it again</li>
+        <li>A first bounded duel with original card art</li>
+        <li>The same flows in the browser build</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2 class="plaque">On the road ahead</h2>
+      <ul class="checklist">
+        <li>Town services: cards, food, quests and deck editing</li>
+        <li>Encounters with Shandalar's wandering creatures</li>
+        <li>Full duels whose results carry back into the campaign</li>
+        <li>Saving and loading, including original save files</li>
+        <li>Dungeons, castles and the Guild Lords</li>
+        <li>Later: new mechanics and cards, and modding support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="plaque plaque--center">The Guild Lords</h2>
+  <ul class="lords-strip">
+    {% for lord in lords %}
+    <li>
+      <a href="world.html#{{ lord.color }}">
+        <img src="{{ root }}{{ lord.orb }}" alt="" width="96" height="48">
+        <span class="lords-strip__name">{{ lord.name }}</span>
+        <span class="lords-strip__guild">{{ lord.guild }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="section">
+  <h2 class="plaque plaque--center">The first duel</h2>
+  <p class="section__intro">
+    These three cards are already playable in the native client. The gallery
+    holds {{ card_count }} more from the original game.
+  </p>
+  <div class="card-row">
+    {% for c in first_duel %}{{ card(c) }}{% endfor %}
+  </div>
+  <p class="center"><a class="button button--large" href="cards.html">Browse all cards</a></p>
+</section>
+
+{% if latest_posts %}
+<section class="section">
+  <h2 class="plaque plaque--center">From the dev log</h2>
+  <div class="post-list">
+    {% for post in latest_posts %}
+    <a class="panel panel--stone post-teaser" href="devlog/{{ post.slug }}.html">
+      <time datetime="{{ post.date.isoformat() }}">{{ post.date.strftime("%-d %B %Y") }}</time>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.summary }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="section" id="play">
+  <div class="panel panel--stone">
+    <h2 class="plaque">Build &amp; play</h2>
+    <p>From the <code>shandalar-forever/</code> folder:</p>
+    <pre><code># Native Linux client
+cargo run
+
+# A short, fixed duel
+cargo run -- --duel-fixture
+
+# Rules and campaign tests, no window needed
+cargo test
+
+# Browser build, then open http://localhost:8000/web/
+bash build-browser.sh
+python3 -m http.server 8000</code></pre>
+    <p>
+      The browser build needs the <code>wasm32-unknown-unknown</code> Rust target
+      and <code>wasm-bindgen</code> 0.2.129. The original art is already bundled.
+    </p>
+  </div>
+</section>
+{% endblock %}
