@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Shandalar Forever{% endblock %}</title>
   <meta name="description" content="{% block description %}Shandalar Forever is a native rewrite of MicroProse's 1997 Magic: The Gathering adventure, Shandalar.{% endblock %}">
-  <link rel="icon" href="{{ root }}img/compass.png">
+  <link rel="icon" href="{{ root }}img/emblem.png">
   <link rel="stylesheet" href="{{ root }}css/site.css">
   {% block head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
   <header class="site-header">
     <a class="site-header__logo" href="{{ root }}index.html">
-      <img src="{{ root }}img/compass.png" alt="" width="28" height="44">
+      <img src="{{ root }}img/emblem.png" alt="" width="40" height="40">
       Shandalar Forever
     </a>
     <nav class="site-nav" aria-label="Main">
-      {% for href, label in [("index.html", "Home"), ("world.html", "The World"), ("cards.html", "Cards"), ("devlog.html", "Dev Log")] %}
+      {% for href, label in [("index.html", "Home"), ("world.html", "The World"), ("cards.html", "Cards"), ("devlog.html", "Dev Log"), ("download.html", "Download")] %}
       <a class="button{% if page == href or (href == 'devlog.html' and page.startswith('devlog/')) %} button--current{% endif %}" href="{{ root }}{{ href }}">{{ label }}</a>
       {% endfor %}
     </nav>

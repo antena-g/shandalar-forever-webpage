@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% from "_card.html" import card with context %}
 
 {% block body_class %}page-home{% endblock %}
 
@@ -15,7 +14,7 @@
       on Linux and in the browser.
     </p>
     <p class="hero__actions">
-      <a class="button button--large" href="#play">Build &amp; play</a>
+      <a class="button button--large" href="download.html">Download</a>
       <a class="button button--large" href="world.html">Enter the world</a>
     </p>
   </div>
@@ -120,18 +119,6 @@
   </ul>
 </section>
 
-<section class="section">
-  <h2 class="plaque plaque--center">The first duel</h2>
-  <p class="section__intro">
-    These three cards are already playable in the native client. The gallery
-    holds {{ card_count }} more from the original game.
-  </p>
-  <div class="card-row">
-    {% for c in first_duel %}{{ card(c) }}{% endfor %}
-  </div>
-  <p class="center"><a class="button button--large" href="cards.html">Browse all cards</a></p>
-</section>
-
 {% if latest_posts %}
 <section class="section">
   <h2 class="plaque plaque--center">From the dev log</h2>
@@ -147,26 +134,4 @@
 </section>
 {% endif %}
 
-<section class="section" id="play">
-  <div class="panel panel--stone">
-    <h2 class="plaque">Build &amp; play</h2>
-    <p>From the <code>shandalar-forever/</code> folder:</p>
-    <pre><code># Native Linux client
-cargo run
-
-# A short, fixed duel
-cargo run -- --duel-fixture
-
-# Rules and campaign tests, no window needed
-cargo test
-
-# Browser build, then open http://localhost:8000/web/
-bash build-browser.sh
-python3 -m http.server 8000</code></pre>
-    <p>
-      The browser build needs the <code>wasm32-unknown-unknown</code> Rust target
-      and <code>wasm-bindgen</code> 0.2.129. The original art is already bundled.
-    </p>
-  </div>
-</section>
 {% endblock %}

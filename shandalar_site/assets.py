@@ -26,11 +26,12 @@ GAME_ART = {
     "img/shipwreck.webp": "0873.png",
     "img/ruins.webp": "0569.png",
     "img/standing-stones.webp": "0364.png",
-    "img/compass.png": "COMPASS/0000.png",
-    "img/mana-symbols.png": "CardArt/ManaSymbols.png",
+    "img/emblem.png": "DBArt/ASTRAL.png",  # The Astral set icon: cards native to Shandalar.
+    "img/mana-symbols.png": "CardArt/ManaSymbolsMasked.png",
     "img/card-back.webp": "CardArt/CARDBACK.png",
     "img/button.png": "DuelArt/WINBK_StartDuelButtonNormal.png",
     "img/button-pressed.png": "DuelArt/WINBK_StartDuelButtonDepressed.png",
+    "img/button-disabled.png": "DuelArt/WINBK_StartDuelButtonDisabled.png",
     "img/plaque.png": "ENDPLAK.png",
     "img/icons/tent.png": "ICONS/0003.png",
     "img/icons/castle.png": "ICONS/0000.png",
@@ -38,7 +39,7 @@ GAME_ART = {
 }
 
 # The game's dialog boxes are drawn from 16x16 tiles, nine per style:
-# fill, four corners, then the top, left, bottom and right edges.
+# fill, four corners, then the top, right, bottom and left edges.
 FRAME_STYLES = {
     "img/frames/knot.png": 9,
     "img/frames/stone.png": 18,
@@ -72,18 +73,19 @@ def publish_assets(converted: Path, out: Path, cards: list[Card]) -> None:
             converted / f"CardArt/CARDBK_{frame}.png", out / f"img/frames/card-{frame}.webp"
         )
 
+    # Converting ~400 illustrations is the slow part of a build, so reuse the
+    # ones already converted. Each file is named after its source, so a stale
+    # copy can only come from changed game art: delete _site/ to rebuild then.
     for card in cards:
-        save_image(
-            converted / f"CardArt/medart/{card.art}.png", out / f"img/cards/{card.art}.webp"
-        )
+        dest = out / f"img/cards/{card.art}.webp"
+        if not dest.exists():
+            save_image(converted / f"CardArt/medart/{card.art}.png", dest)
 
     shutil.copytree(converted / "fonts", out / "fonts", dirs_exist_ok=True)
 
 
 def save_image(source: Path, dest: Path) -> None:
     """Copy a PNG, or convert it when the destination ends in .webp."""
-    if dest.exists() and dest.stat().st_mtime >= source.stat().st_mtime:
-        return
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.suffix == ".webp":
         Image.open(source).save(dest, quality=85, method=6)
@@ -101,7 +103,7 @@ def save_without_black(source: Path, dest: Path) -> None:
 
 def build_frame(tiles: Path, first_tile: int, dest: Path) -> None:
     """Join nine dialog tiles into one image for CSS border-image."""
-    fill, top_left, top_right, bottom_left, bottom_right, top, left, bottom, right = (
+    fill, top_left, top_right, bottom_left, bottom_right, top, right, bottom, left = (
         Image.open(tiles / f"{first_tile + offset:04d}.png").convert("RGBA")
         for offset in range(9)
     )

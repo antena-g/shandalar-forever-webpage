@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Download — Shandalar Forever{% endblock %}
+{% block description %}Download Shandalar Forever for Linux or Windows.{% endblock %}
+
+{# A link button, greyed out while its link is not set yet. #}
+{% macro link_button(url, label) %}
+{% if url %}
+<a class="button button--large" href="{{ url }}">{{ label }}</a>
+{% else %}
+<span class="button button--large button--disabled" aria-disabled="true">{{ label }}</span>
+{% endif %}
+{% endmacro %}
+
+{% block content %}
+<section class="hero hero--short">
+  <img class="hero__image" src="{{ root }}img/castle.webp" alt="" width="512" height="280">
+  <div class="hero__text">
+    <p class="hero__eyebrow">Early development build</p>
+    <h1 class="hero__title">Download</h1>
+    <p class="hero__lead">Set out for Shandalar on Linux or Windows. The original art comes bundled.</p>
+  </div>
+</section>
+
+<section class="section narrow">
+  <article class="panel download">
+    <h2 class="plaque">Shandalar Forever</h2>
+    <p>
+      This is an early build. You can create a character, walk the overworld,
+      open the map and visit Hornwell Mill. Towns, encounters, full duels and
+      saving are still on the way.
+    </p>
+    <p class="download__action">
+      {% for platform, url in downloads.items() %}
+      {{ link_button(url, "Download for " ~ platform) }}
+      {% endfor %}
+    </p>
+    {% if "" in downloads.values() %}
+    <p class="download__note">Download links coming soon.</p>
+    {% endif %}
+
+    <h3 class="download__heading">System requirements</h3>
+    <dl class="requirements">
+      {% for label, value in requirements %}
+      <dt>{{ label }}</dt>
+      <dd>{{ value }}</dd>
+      {% endfor %}
+    </dl>
+  </article>
+</section>
+
+<section class="section narrow">
+  <article class="panel panel--stone download">
+    <h2 class="plaque">Source code</h2>
+    <p>
+      Shandalar Forever is developed in the open. Read the code, follow the
+      progress, report bugs or build the game yourself.
+    </p>
+    <p class="download__action">{{ link_button(github_url, "View on GitHub") }}</p>
+    {% if not github_url %}<p class="download__note">Link coming soon.</p>{% endif %}
+  </article>
+</section>
+{% endblock %}

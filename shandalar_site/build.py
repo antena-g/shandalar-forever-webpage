@@ -18,8 +18,22 @@ STATIC = WEBSITE / "static"
 DEVLOG = WEBSITE / "content" / "devlog"
 DEFAULT_GAME_ASSETS = WEBSITE.parent / "shandalar-forever" / "assets" / "original"
 
-# The cards in the native client's playable duel fixture.
-FIRST_DUEL_CARDS = ("Ley Druid", "Healing Salve", "War Mammoth")
+# Links shown on the download page. While a link is empty, the page says it is
+# coming soon instead of showing a broken button.
+DOWNLOADS = {
+    "Linux": "",
+    "Windows": "",
+}
+GITHUB_URL = ""
+
+# Minimum requirements, taken from the Fyrox engine the game is built on:
+# Fyrox 1.0 needs OpenGL 3.3 (or OpenGL ES 3.0), and Rust's 64-bit Windows
+# target needs Windows 10 or later.
+REQUIREMENTS = [
+    ("Operating system", "Windows 10 or later (64-bit), or Linux with X11 or Wayland"),
+    ("Graphics", "A graphics card and driver supporting OpenGL 3.3 or OpenGL ES 3.0"),
+    ("Processor", "64-bit (x86-64)"),
+]
 
 # Filters on the card gallery: (colour, mana symbol shown on the button).
 COLOR_FILTERS = [
@@ -52,17 +66,13 @@ def build(out: Path, game_assets: Path = DEFAULT_GAME_ASSETS) -> None:
     env.filters["mana"] = mana_symbol
     env.globals["lords"] = GUILD_LORDS
 
-    cards_by_name = {card.name: card for card in cards}
     pages = {
-        "index.html": (
-            "index.html",
-            {
-                "first_duel": [cards_by_name[name] for name in FIRST_DUEL_CARDS],
-                "card_count": len(cards),
-                "latest_posts": posts[:2],
-            },
-        ),
+        "index.html": ("index.html", {"latest_posts": posts[:2]}),
         "world.html": ("world.html", {}),
+        "download.html": (
+            "download.html",
+            {"downloads": DOWNLOADS, "github_url": GITHUB_URL, "requirements": REQUIREMENTS},
+        ),
         "cards.html": ("cards.html", {"cards": cards, "color_filters": COLOR_FILTERS}),
         "devlog.html": ("devlog.html", {"posts": posts}),
     }

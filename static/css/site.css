@@ -27,11 +27,11 @@
   --night: #0e0b09;
   --stone: #2c2522;
   --parchment-text: #eadcb8;
-  --ink: #2a1a0e;
-  --ink-soft: #5a4128;
+  --ink: #1f1309;
+  --ink-soft: #4a321c;
   --gold: #f1d78a;
   --gold-deep: #b8892e;
-  --crimson: #8c2a1f;
+  --crimson: #7a1d12;
 
   --white: #6d5a2a;
   --blue: #1f5a99;
@@ -144,7 +144,7 @@ blockquote {
   text-decoration: none;
   text-shadow: 0 2px 0 #000;
 }
-.site-header__logo img { image-rendering: pixelated; }
+.site-header__logo img { box-shadow: 0 2px 6px rgb(0 0 0 / 0.6); }
 
 .site-nav {
   display: flex;
@@ -183,6 +183,12 @@ blockquote {
 .button--current { border-image-source: url("../img/button-pressed.png"); }
 .button--current { color: var(--crimson); }
 .button--large { font-size: 1.15rem; padding: 0.35em 1.3em; }
+.button--disabled {
+  border-image-source: url("../img/button-disabled.png");
+  color: #6d665f;
+  cursor: not-allowed;
+}
+.button--disabled:hover { filter: none; }
 
 .button:focus-visible,
 .card-button:focus-visible,
@@ -216,7 +222,10 @@ blockquote {
   padding: 0.75rem 1.25rem;
   border: var(--frame-width) solid transparent;
   border-image: url("../img/frames/knot.png") 32 round;
-  background: #d8c49a url("../img/parchment.webp") center / cover;
+  /* A cream wash over the texture keeps text readable on its darker flecks. */
+  background:
+    linear-gradient(rgb(246 234 206 / 0.45), rgb(246 234 206 / 0.45)),
+    #d8c49a url("../img/parchment.webp") center / cover;
   background-clip: padding-box;
   color: var(--ink);
   box-shadow: 0 12px 30px rgb(0 0 0 / 0.5);
@@ -384,15 +393,6 @@ blockquote {
 .lords-strip__name { color: var(--gold); font-family: var(--display); font-size: 1.35rem; }
 .lords-strip__guild { font-size: 0.85rem; color: #b5a37f; }
 
-.card-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-.card-row .card { width: clamp(220px, 28vw, 290px); }
-
 .post-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -461,7 +461,6 @@ blockquote {
   margin: 0 0.04em;
   vertical-align: -0.15em;
   background: url("../img/mana-symbols.png") calc(var(--i) * -1.05em) 0 / calc(19 * 1.05em) 1.05em;
-  image-rendering: pixelated;
 }
 .mana--text { width: auto; background: none; font-family: var(--label); }
 
@@ -677,3 +676,40 @@ blockquote {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
+
+/* ---------- Download page ---------- */
+
+.download { text-align: center; }
+
+.download__heading {
+  margin: 2rem 0 0.75rem;
+  color: var(--crimson);
+  font-family: var(--label);
+  font-size: 1.15rem;
+}
+
+.requirements {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.25rem;
+  max-width: 36rem;
+  margin: 0 auto 0.5rem;
+  text-align: left;
+}
+.requirements dt { font-family: var(--label); font-size: 0.9rem; padding-top: 0.15em; }
+.requirements dd { margin: 0; }
+
+@media (max-width: 520px) {
+  .requirements { grid-template-columns: 1fr; gap: 0.1rem; }
+  .requirements dd { margin-bottom: 0.6rem; }
+}
+.download__action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.download__note { color: var(--ink-soft); font-style: italic; }
+.panel--stone .download__note { color: #c9b893; }

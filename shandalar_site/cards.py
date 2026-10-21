@@ -31,6 +31,10 @@ TOUGHNESS = 0x80
 COST_BYTES = {"generic": 0x28, "B": 0x29, "U": 0x2A, "G": 0x2D, "R": 0x2F, "W": 0x30}
 X_COST = 0x48
 
+# CARDS.DAT gives Aladdin's Lamp a cost of 17; the printed card and the game's
+# INFO.CSV both say 10.
+COST_CORRECTIONS = {"Aladdin's Lamp": ("10",)}
+
 # Power and toughness of 100 or more mean "*"; Angry Mob's 102 is "2+*".
 STAR_STAT = 100
 
@@ -146,14 +150,15 @@ def read_cards(path: Path) -> list[Card]:
         if color is None or card_type is None:
             continue
 
+        name = text(number(NAME))
         flavor = text(number(FLAVOR))
         cards.append(
             Card(
                 id=card_id,
-                name=text(number(NAME)),
+                name=name,
                 color=color,
                 type=card_type,
-                cost=_read_cost(record),
+                cost=COST_CORRECTIONS.get(name) or _read_cost(record),
                 rules=text(number(RULES)),
                 flavor=None if flavor == "None" else flavor,
                 power=number(POWER),
