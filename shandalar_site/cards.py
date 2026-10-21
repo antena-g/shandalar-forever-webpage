@@ -163,7 +163,8 @@ def read_cards(path: Path) -> list[Card]:
                 flavor=None if flavor == "None" else flavor,
                 power=number(POWER),
                 toughness=number(TOUGHNESS),
-                art=Path(text(number(ART_FILE))).stem,
+                # The game ran on Windows, so names like "0528A.wvl" ignore case.
+                art=Path(text(number(ART_FILE))).stem.lower(),
             )
         )
     return cards

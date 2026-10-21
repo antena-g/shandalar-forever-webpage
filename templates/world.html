@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}The World — Shandalar Forever{% endblock %}
-{% block description %}The story of Shandalar: the Great Barrier, the five Guild Lords and the planeswalker Arzakon.{% endblock %}
+{% block description %}The story and lands of Shandalar: Lim-Dul's War, the Great Barrier, the five Guild Lords, the planeswalker Arzakon, and the places you will visit.{% endblock %}
 
 {% block content %}
 <section class="hero hero--short">
@@ -9,31 +9,31 @@
   <div class="hero__text">
     <p class="hero__eyebrow">Adapted from the 1997 game manual</p>
     <h1 class="hero__title">The Chronicle of Shandalar</h1>
+    <nav class="page-index" aria-label="On this page">
+      <a href="#history">History</a>
+      <a href="#arzakon">Arzakon</a>
+      <a href="#lords">Guild Lords</a>
+      <a href="#lands">Lands</a>
+      <a href="#places">Places</a>
+      <a href="#world-magics">World Magics</a>
+    </nav>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="history">
   <div class="split">
     <article class="panel">
-      <h2 class="plaque">The Great Barrier</h2>
+      <h2 class="plaque">A plane drowning in mana</h2>
       <p>
-        Shandalar is a small plane rich in <em>living mana</em>, magic so strong it
-        seems almost aware. Long ago the necromancer Lim-Dul tried to make it his
-        own, and he was stopped by Kenan Sahrmal, Shandalar's greatest hero, and his
-        pupil Azaar.
+        Shandalar is a small plane with more magic than it knows what to do with.
+        Its mana is so rich that wizards of old made creatures out of pure mana,
+        and their descendants, the great dragons among them, still roam the land.
+        Lesser spells are part of everyday life, even for ordinary folk.
       </p>
       <p>
-        Azaar's last spell was meant to raise a temporary ward around the plane.
-        Instead it caught Lim-Dul's spirit and his own in Azaar's body, and drew on
-        both to raise the <strong>Great Barrier</strong>, a wall that no
-        planeswalker could break. As long as Lim-Dul stays imprisoned, the barrier
-        holds.
-      </p>
-      <p>
-        Sahrmal gave the last of his power to his second apprentice, who became the
-        immortal <strong>Guardian</strong>. With the plane's greatest wizards, the
-        Guardian founded five guilds, one for each colour of magic, to teach it and
-        keep it from being abused.
+        For ages the plane prospered alone, watched over by
+        <strong>Kenan Sahrmal</strong>, a planeswalker who chose to protect his
+        home rather than prey on others.
       </p>
     </article>
     <figure class="framed-art">
@@ -42,7 +42,58 @@
   </div>
 </section>
 
-<section class="section section--dark" style="background-image: url('{{ root }}img/cavern.webp')">
+<section class="section">
+  <div class="split split--reverse">
+    <article class="panel">
+      <h2 class="plaque">Lim-Dul's War</h2>
+      <p>
+        Then the necromancer <strong>Lim-Dul</strong> arrived. Sahrmal drove off
+        the planeswalkers who came with him, but Lim-Dul struck the weakened hero
+        down with a pitchfork. Sahrmal vanished; Lim-Dul was beheaded. Neither
+        was truly gone.
+      </p>
+      <p>
+        Twelve years later Lim-Dul returned at the head of an undead army. The
+        war lasted years and laid waste to every great city but one:
+        <strong>Ardestan</strong>. In secret, Sahrmal had been training two
+        pupils to take his place. One was <strong>Azaar</strong>; the other's name
+        has never been revealed.
+      </p>
+      <p>
+        As Ardestan fell, Azaar ran to its defence with a great spell stolen
+        from his teacher. In the last moment Lim-Dul leapt into Azaar's body,
+        and the spell, meant to imprison the necromancer, trapped both spirits
+        in one body. Their imprisoned power raised the <strong>Great Barrier</strong>,
+        a wall no planeswalker could break, for as long as Lim-Dul stays bound.
+      </p>
+    </article>
+    <figure class="framed-art">
+      <img src="{{ root }}img/castle-dusk.webp" alt="A castle against a red sunset" width="512" height="280">
+    </figure>
+  </div>
+</section>
+
+<section class="section narrow">
+  <article class="panel">
+    <h2 class="plaque">The Guardian and the guilds</h2>
+    <p>
+      Sahrmal gave the last of his power to his second pupil, who became the
+      immortal <strong>Guardian</strong> of Shandalar. With the plane's greatest
+      wizards, the Guardian founded five guilds, one for each colour of magic, to
+      teach it and keep it from being abused. Each guild is led by a Guild Lord,
+      the champion of a great contest.
+    </p>
+    <p>
+      In time Lim-Dul won the struggle inside Azaar's body and rose again, and
+      was beaten again in the <strong>Wizards' War</strong>, at the cost of the
+      Black Guild's Lord. The Guardian sealed his spirit in an artifact. Azaar's
+      empty body, steeped in magic, would not lie still: it rose as the
+      undead <strong>Lichlord</strong> and took command of the Black Guild.
+    </p>
+  </article>
+</section>
+
+<section class="section section--dark" id="arzakon" style="background-image: url('{{ root }}img/cavern.webp')">
   <article class="panel panel--stone narrow">
     <h2 class="plaque">Arzakon</h2>
     <p>
@@ -70,7 +121,7 @@
   </article>
 </section>
 
-<section class="section">
+<section class="section" id="lords">
   <h2 class="plaque plaque--center">The five Guild Lords</h2>
   <div class="lords">
     {% for lord in lords %}
@@ -90,29 +141,81 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="split split--reverse">
-    <article class="panel">
-      <h2 class="plaque">Your journey</h2>
-      <p>
-        You start with a weak deck, a little gold and a lot of land to cross. On
-        the way you will find:
-      </p>
-      <ul class="checklist">
-        <li><strong>Towns and villages</strong> that sell cards and food, offer quests and ask for help</li>
-        <li><strong>Wandering creatures</strong> sent by the Guild Lords, each with its own deck</li>
-        <li><strong>Dungeons</strong> full of monsters and rare cards</li>
-        <li><strong>Castles</strong> where the Guild Lords wait</li>
-      </ul>
-      <p>
-        Every fight is a game of Magic played for ante. Beat all five Lords
-        before their minions take over Shandalar's towns, and then face Arzakon
-        itself.
-      </p>
+<section class="section" id="lands">
+  <h2 class="plaque plaque--center">The lands</h2>
+  <p class="section__intro">
+    Shandalar's continent has five kinds of land, one for each colour of magic,
+    all ringed by the great ocean Tonamur, which no one can cross. Each land is
+    home to creatures of its colour, and villages trade mostly in the local magic.
+    Roads speed you through any of them.
+  </p>
+  <div class="terrains">
+    {% for terrain in terrains %}
+    <article class="terrain terrain--{{ terrain.color }}">
+      <img class="terrain__art" src="{{ root }}img/cards/{{ land_art[terrain.land] }}.webp" alt="" width="288" height="232" loading="lazy">
+      <h3 class="terrain__name">{{ terrain.name }}</h3>
+      <p>{{ terrain.description }}</p>
     </article>
-    <figure class="framed-art">
-      <img src="{{ root }}img/castle-dusk.webp" alt="A castle against a red sunset" width="512" height="280">
-    </figure>
+    {% endfor %}
   </div>
+</section>
+
+<section class="section" id="places">
+  <h2 class="plaque plaque--center">Places</h2>
+  <div class="places">
+    {% for place in places %}
+    <article class="panel panel--stone place">
+      <img src="{{ root }}{{ place.image }}" alt="" width="96" height="72">
+      <h3>{{ place.name }}</h3>
+      <p>{{ place.description }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section narrow">
+  <article class="panel">
+    <h2 class="plaque">Mana links and Mana Domes</h2>
+    <p>
+      The minor wizards' cities are Shandalar's richest untapped stores of magic.
+      Every <strong>mana link</strong> you hold with a city adds one life to your
+      total in every duel. You start with a few and earn more by finishing quests.
+    </p>
+    <p>
+      The Guild Lords send their creatures to conquer those same cities. A
+      conquered city disappears under a <strong>Mana Dome</strong> in its
+      conqueror's colour, your link to it is lost, and the Lord gains a
+      <strong>mana tap</strong>. A Lord with enough taps can cast the Spell of
+      Dominion. Defeat the dome's guardian to set the city free.
+    </p>
+    <ul class="domes" aria-label="The five Mana Domes">
+      {% for terrain in terrains %}
+      <li><img src="{{ root }}{{ terrain.mana_dome }}" alt="{{ terrain.color | capitalize }} Mana Dome"></li>
+      {% endfor %}
+    </ul>
+  </article>
+</section>
+
+<section class="section narrow" id="world-magics">
+  <article class="panel panel--stone">
+    <h2 class="plaque">World Magics</h2>
+    <p>
+      World Magics work outside duels. You start with one and buy more in
+      cities, where village folk will point you. Some, like the Amulet of
+      Swampwalk that speeds you through swamps, work all the time. Five can be
+      called on at will, each using up a mana stone of its colour:
+    </p>
+    <dl class="world-magics">
+      {% for magic in world_magics %}
+      <dt>{{ magic.stone_symbol | mana }} {{ magic.name }}</dt>
+      <dd>{{ magic.effect }}</dd>
+      {% endfor %}
+    </dl>
+  </article>
+</section>
+
+<section class="section center">
+  <p class="section__intro">Every road in Shandalar has something waiting on it.</p>
+  <a class="button button--large" href="bestiary.html">Meet the creatures</a>
 </section>
 {% endblock %}

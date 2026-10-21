@@ -1,7 +1,8 @@
 # Shandalar Forever website
 
 A static website for Shandalar Forever, dressed in the art of the 1997 game. It
-has a landing page, a lore page, a card archive and a dev log.
+has a landing page, a lore page, a bestiary, a card archive, a download
+page and a dev log.
 
 A small Python program renders Jinja templates into plain HTML. It takes
 the art, fonts and card data from `../shandalar-forever/assets/original/`
@@ -29,11 +30,15 @@ game assets, `--port` for the preview server.
 | `shandalar_site/build.py` | Renders every page; start reading here |
 | `shandalar_site/cards.py` | Reads the game's `CARDS.DAT` card catalogue |
 | `shandalar_site/assets.py` | Copies and converts the game art the site uses |
-| `shandalar_site/lore.py` | The five Guild Lords |
+| `shandalar_site/lore.py` | Guild Lords, lands, places and World Magics |
+| `shandalar_site/bestiary.py` | Creatures and their decks |
 | `shandalar_site/devlog.py` | Loads dev log posts |
 | `templates/` | Jinja page templates; `_card.html` draws a card |
 | `static/` | Stylesheet and the card archive script |
 | `content/devlog/` | Dev log posts in Markdown |
+| `content/creatures.csv` | The game's creature table, extracted once from `MAGIC.EXE` |
+| `content/screenshots/` | Screenshots of the browser build, listed in `build.py` |
+| `scripts/extract_creatures.py` | Rebuilds `creatures.csv` from the reference game |
 
 ## Writing a dev log post
 

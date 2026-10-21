@@ -1,0 +1,57 @@
+type,name,home_colors,deck,sprite
+0,Lair,black blue green red white,0,
+1,Witch,black,56,BK_FWZ
+2,Undead Knight,black,16,BK_KHT
+3,Warlock,black,55,BK_MWZ
+4,VampireLord,black,220,BK_LRD
+5,Nether Fiend,black,151,BK_WG
+6,Necromancer,black,291,BK_AMG
+7,Greater Lich,black,141,
+8,Cleric,white,211,W_MWZ
+9,Priestess,white,204,W_FWZ
+10,Crusader,white,283,W_KHT
+11,Paladin,white,175,W_LRD
+12,Arch Angel,white,221,W_WG
+13,High Priest,white,203,W_AMG
+14,Sainted One,white,21,
+15,Seer,blue,69,BU_FWZ
+16,Merfolk Shaman,blue,150,BU_LRD
+17,Conjurer,blue,260,BU_MWZ
+18,Sea Dragon,blue,218,BU_WRM
+19,Shapeshifter,blue,263,B_SFR
+20,Thought Invoker,blue,232,BU_AMG
+21,Astral Visionary,blue,245,
+22,Druid,green,139,G_MWZ
+23,Elvish Magi,green,76,G_KHT
+24,Enchantress,green,262,G_FWZ
+25,Forest Dragon,green,49,G_WRM
+26,Beastmaster,green,170,G_LRD
+27,Summoner,green,30,G_AMG
+28,Great Druid,green,95,
+29,Sorceress,red,74,R_FWZ
+30,Sorcerer,red,192,R_MWZ
+31,Troll Shaman,red,261,TROLL
+32,Goblin Lord,red,102,R_LRD
+33,Hydra,red,207,R_WRM
+34,War Mage,red,229,R_AMG
+35,Dragon Lord,red,135,R_AMG
+36,Tusk Guardian,green white,414,M_TSK
+37,Sedge Beast,black red,219,M_TRL
+38,Ape Lord,green red,437,M_APE
+39,Centaur Shaman,black green,179,M_CEN2
+40,Winged Stallion,blue white,127,M_WG
+41,Fungus Master,blue green,94,M_FNG
+42,Centaur Warchief,red white,897,M_CEN
+43,Mind Stealer,black blue,289,M_LRD
+44,Lord of Fate,black white,10,M_KHT
+45,Elementalist,blue red,399,M_FWZ
+46,Aga Galneer,black,434,BK_DJN
+47,Alt-A-Kesh,green,426,G_DJN
+48,Queltosh,red,442,R_DJN
+49,Saltrem Tor,blue,456,BU_DJN
+50,Mandurang,black,990,DG_BRU
+51,Whim,blue,991,DG_UWB
+52,Prismat,green,992,DG_GWR
+53,Dracur,red,993,DG_RBG
+54,Kiska-Ra,white,994,DG_WUG
+55,Arzakon,,999,

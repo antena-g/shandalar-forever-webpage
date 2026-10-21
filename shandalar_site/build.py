@@ -8,14 +8,26 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
 from .assets import publish_assets
+from .bestiary import group_by_homeland, load_creatures
 from .cards import Card, mana_symbol, read_cards, rules_to_html
 from .devlog import load_posts
-from .lore import GUILD_LORDS
+from .lore import GUILD_LORDS, PLACES, TERRAINS, WORLD_MAGICS
 
 WEBSITE = Path(__file__).resolve().parent.parent
 TEMPLATES = WEBSITE / "templates"
 STATIC = WEBSITE / "static"
 DEVLOG = WEBSITE / "content" / "devlog"
+CREATURES = WEBSITE / "content" / "creatures.csv"
+SCREENSHOTS = WEBSITE / "content" / "screenshots"
+
+# Screenshots of the current browser build, shown on the home page:
+# (file in content/screenshots/, caption). The first one is shown largest.
+SCREENSHOT_CAPTIONS = [
+    ("overworld.webp", "Exploring the overworld"),
+    ("duel.webp", "A duel"),
+    ("title-menu.webp", "The title screen"),
+    ("choose-your-visage.webp", "Choosing your visage"),
+]
 DEFAULT_GAME_ASSETS = WEBSITE.parent / "shandalar-forever" / "assets" / "original"
 
 # Links shown on the download page. While a link is empty, the page says it is
@@ -50,11 +62,15 @@ COLOR_FILTERS = [
 
 def build(out: Path, game_assets: Path = DEFAULT_GAME_ASSETS) -> None:
     cards = gallery_cards(game_assets)
+    creatures = load_creatures(
+        CREATURES, game_assets / "raw" / "DECKS", read_cards(game_assets / "raw" / "CARDS.DAT")
+    )
     posts = load_posts(DEVLOG)
 
     out.mkdir(parents=True, exist_ok=True)
-    publish_assets(game_assets / "converted", out, cards)
+    publish_assets(game_assets / "converted", out, cards, creatures)
     shutil.copytree(STATIC, out, dirs_exist_ok=True)
+    shutil.copytree(SCREENSHOTS, out / "img" / "screenshots", dirs_exist_ok=True)
 
     env = Environment(
         loader=FileSystemLoader(TEMPLATES),
@@ -67,11 +83,29 @@ def build(out: Path, game_assets: Path = DEFAULT_GAME_ASSETS) -> None:
     env.globals["lords"] = GUILD_LORDS
 
     pages = {
-        "index.html": ("index.html", {"latest_posts": posts[:2]}),
-        "world.html": ("world.html", {}),
+        "index.html": (
+            "index.html",
+            {"latest_posts": posts[:2], "screenshots": SCREENSHOT_CAPTIONS},
+        ),
+        "world.html": (
+            "world.html",
+            {
+                "terrains": TERRAINS,
+                "places": PLACES,
+                "world_magics": WORLD_MAGICS,
+                "land_art": {card.name: card.art for card in cards},
+            },
+        ),
         "download.html": (
             "download.html",
             {"downloads": DOWNLOADS, "github_url": GITHUB_URL, "requirements": REQUIREMENTS},
+        ),
+        "bestiary.html": (
+            "bestiary.html",
+            {
+                "homelands": group_by_homeland(creatures),
+                "previewable_cards": {card.id for card in cards},
+            },
         ),
         "cards.html": ("cards.html", {"cards": cards, "color_filters": COLOR_FILTERS}),
         "devlog.html": ("devlog.html", {"posts": posts}),

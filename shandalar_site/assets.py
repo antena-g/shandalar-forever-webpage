@@ -11,8 +11,9 @@ from pathlib import Path
 
 from PIL import Image
 
+from .bestiary import Creature
 from .cards import Card
-from .lore import GUILD_LORDS
+from .lore import GUILD_LORDS, PLACES, TERRAINS
 
 # Published path -> source path inside assets/original/converted/.
 GAME_ART = {
@@ -23,8 +24,7 @@ GAME_ART = {
     "img/spellbook.webp": "staceybk.png",
     "img/castle-dusk.webp": "NEWSBACK.png",
     "img/castle.webp": "0028.png",
-    "img/shipwreck.webp": "0873.png",
-    "img/ruins.webp": "0569.png",
+    "img/spirit-forest.webp": "0335.png",
     "img/standing-stones.webp": "0364.png",
     "img/emblem.png": "DBArt/ASTRAL.png",  # The Astral set icon: cards native to Shandalar.
     "img/mana-symbols.png": "CardArt/ManaSymbolsMasked.png",
@@ -36,6 +36,8 @@ GAME_ART = {
     "img/icons/tent.png": "ICONS/0003.png",
     "img/icons/castle.png": "ICONS/0000.png",
     "img/icons/cave.png": "ICONS/0010.png",
+    "img/icons/hills.png": "ICONS/0011.png",
+    "img/icons/compass.png": "COMPASS/0000.png",
 }
 
 # The game's dialog boxes are drawn from 16x16 tiles, nine per style:
@@ -46,12 +48,18 @@ FRAME_STYLES = {
 }
 FRAME_TILE = 16
 FRAME_SCALE = 2
+SPRITE_SCALE = 3  # Overworld sprites are tiny; enlarge them, keeping hard pixels.
+
+# The fully grown Mana Dome of each colour, in SPR/DOMES1-5/.
+MANA_DOME_FRAMES = {"red": "0003", "blue": "0007", "black": "0011", "green": "0015", "white": "0019"}
 
 PARCHMENT_SOURCE = "DuelArt/GAUN_Startup.png"
 PARCHMENT_CROP = (16, 16, 534, 393)  # Trim the bevelled edge of the 550x409 panel.
 
 
-def publish_assets(converted: Path, out: Path, cards: list[Card]) -> None:
+def publish_assets(
+    converted: Path, out: Path, cards: list[Card], creatures: list[Creature]
+) -> None:
     for published, source in GAME_ART.items():
         save_image(converted / source, out / published)
 
@@ -81,6 +89,17 @@ def publish_assets(converted: Path, out: Path, cards: list[Card]) -> None:
         if not dest.exists():
             save_image(converted / f"CardArt/medart/{card.art}.png", dest)
 
+    for place in PLACES:
+        save_image(converted / f"ICONS/{place.icon}.png", out / place.image)
+
+    for terrain in TERRAINS:
+        frame = MANA_DOME_FRAMES[terrain.color]
+        save_sprite(converted / f"SPR/DOMES1-5/{frame}.png", out / terrain.mana_dome)
+
+    for creature in creatures:
+        # Frame 0 of each walking animation faces the viewer.
+        save_sprite(converted / f"SPR/{creature.sprite}/0000.png", out / creature.image)
+
     shutil.copytree(converted / "fonts", out / "fonts", dirs_exist_ok=True)
 
 
@@ -91,6 +110,15 @@ def save_image(source: Path, dest: Path) -> None:
         Image.open(source).save(dest, quality=85, method=6)
     else:
         shutil.copyfile(source, dest)
+
+
+def save_sprite(source: Path, dest: Path) -> None:
+    """Crop a sprite to its figure and enlarge it with nearest-neighbour scaling."""
+    sprite = Image.open(source).convert("RGBA")
+    sprite = sprite.crop(sprite.getbbox())
+    size = (sprite.width * SPRITE_SCALE, sprite.height * SPRITE_SCALE)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    sprite.resize(size, Image.Resampling.NEAREST).save(dest)
 
 
 def save_without_black(source: Path, dest: Path) -> None:

@@ -16,7 +16,7 @@
       Shandalar Forever
     </a>
     <nav class="site-nav" aria-label="Main">
-      {% for href, label in [("index.html", "Home"), ("world.html", "The World"), ("cards.html", "Cards"), ("devlog.html", "Dev Log"), ("download.html", "Download")] %}
+      {% for href, label in [("index.html", "Home"), ("world.html", "The World"), ("bestiary.html", "Bestiary"), ("cards.html", "Cards"), ("devlog.html", "Dev Log"), ("download.html", "Download")] %}
       <a class="button{% if page == href or (href == 'devlog.html' and page.startswith('devlog/')) %} button--current{% endif %}" href="{{ root }}{{ href }}">{{ label }}</a>
       {% endfor %}
     </nav>

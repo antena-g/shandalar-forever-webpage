@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% from "_card.html" import card with context %}
+
+{% block title %}Bestiary — Shandalar Forever{% endblock %}
+{% block description %}The creatures that roam Shandalar, where they live and the decks they duel with.{% endblock %}
+
+{% block content %}
+<section class="hero hero--short">
+  <img class="hero__image" src="{{ root }}img/spirit-forest.webp" alt="" width="512" height="280">
+  <div class="hero__text">
+    <p class="hero__eyebrow">From the game's own creature table and decks</p>
+    <h1 class="hero__title">Bestiary</h1>
+    <p class="hero__lead">
+      Each of the five Guild Lords has unleashed a horde of magical minions.
+      They stop anyone they meet and demand a duel, or payment for the right
+      to cross the land their master claims.
+    </p>
+  </div>
+</section>
+
+<section class="section narrow">
+  <div class="panel">
+    <h2 class="plaque">Facing a creature</h2>
+    <p>
+      When a creature catches you, both of you put a card up as <strong>ante</strong>.
+      You can <strong>duel</strong> it, <strong>pay it off</strong> if it will take a
+      bribe, or try to <strong>answer its riddle</strong>, usually a question about
+      Magic cards. A wrong answer costs you your ante.
+    </p>
+    <p>
+      Beat a creature and you choose your reward: its ante, or what it knows.
+      Defeated creatures are the only way to learn where hidden dungeons lie and
+      what waits inside the five castles. Every minion you defeat also costs its
+      master life.
+    </p>
+    <p>
+      Creatures rarely stray far from their home terrain. Many also adjust
+      their decks to you, slipping in a few extra cards against the colour you
+      play.
+    </p>
+  </div>
+</section>
+
+{% for homeland, intro, creatures in homelands %}
+<section class="section" id="{{ homeland | lower }}">
+  <h2 class="plaque plaque--center">{{ homeland }}</h2>
+  <p class="section__intro">{{ intro }}</p>
+  <div class="creatures">
+    {% for creature in creatures %}
+    <article class="panel panel--stone creature">
+      <div class="creature__sprite">
+        <img src="{{ root }}{{ creature.image }}" alt="">
+      </div>
+      <div class="creature__info">
+        <h3 class="creature__name">{{ creature.name }}</h3>
+        <p class="creature__colors">{% for symbol in creature.mana_symbols %}{{ symbol | mana }}{% endfor %}</p>
+        <p class="creature__label">Favourite spells</p>
+        <ul class="creature__cards">
+          {% for entry in creature.signature_cards %}
+          <li>
+            {% if entry.card.id in previewable_cards %}
+            <button type="button" class="card-peek">{{ entry.card.name }}</button>
+            <template>{{ card(entry.card) }}</template>
+            {% else %}
+            {{ entry.card.name }}
+            {% endif %}
+            <span class="creature__copies">×{{ entry.copies }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<div class="card-peek__popup" data-card-peek hidden></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ root }}js/card-peek.js" defer></script>
+{% endblock %}
