@@ -52,3 +52,15 @@ Changed sources: `shandalar_site/build.py`, `shandalar_site/__main__.py`,
 `static/css/site.css`, `static/js/play.js`, `static/game/index.html`,
 `tests/test_browser_bundle.py`, `.github/workflows/deploy.yml`, `.gitignore`,
 `README.md` and this report. Generated `_site/` files are intentionally ignored.
+
+## Deployment authentication correction
+
+The first remote attempt failed before compilation because the separate game
+checkout used the website-scoped token. The workflow now requires the Actions
+secret `GAME_SOURCE_TOKEN` with Contents read access to the game and Phase
+repositories, supplies it to recursive checkout, and sets
+`persist-credentials: false`. Missing configuration fails with a direct message.
+See README.md for exact setup. Local SSH read checks confirm both repository
+URLs work; the pinned game/Phase commits are not ancestors of the observed remote
+main heads (`6de7cb24` / `ef41efa`). Publishing those commits remains necessary.
+No secret was created/read, commits pushed, or remote deployment retried here.

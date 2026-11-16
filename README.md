@@ -100,3 +100,30 @@ running that remote workflow, the selected game commit and its referenced Phase
 commit must exist on their remotes. Local builds do not push or deploy anything.
 
 Packaging checks: `uv run python -m unittest discover -s tests -v`.
+
+### Access to the game repositories in GitHub Actions
+
+The website workflow's default `GITHUB_TOKEN` is scoped to the website repository.
+It cannot check out a different private repository, even when both repositories
+have the same owner. GitHub reports that as **Repository not found**.
+
+1. Create a fine-grained personal access token with resource owner `antena-g`, selecting
+   **only** `shandalar-forever` and `phase-shandalar`, with repository permission
+   **Contents: Read-only** (Metadata read access is included automatically).
+2. In `shandalar-forever-webpage`, open **Settings → Secrets and variables →
+   Actions → New repository secret**. Name it **GAME_SOURCE_TOKEN** and save the
+   token there. The workflow uses it for the game checkout and recursive Phase
+   submodule, then removes the checkout credentials.
+3. Publish the selected Phase commit first, then the game commit that references
+   it, and the website workflow change. The selected `game_ref` and its submodule
+   commit must exist on GitHub; a token does not upload local commits.
+4. Start a **new** Deploy website run using the updated workflow. Re-running an
+   old failed run can still use the old workflow definition.
+
+The workflow checks that the secret is configured before attempting the checkout.
+If the secret exists but checkout still reports Repository not found, check that
+it is unexpired, its owner can read both repositories, both are selected, and any
+required organization approval has been granted.
+
+References: [checkout's private-repository instructions](https://github.com/actions/checkout/tree/v5#checkout-multiple-repos-private)
+and [GitHub's fine-grained token setup](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).

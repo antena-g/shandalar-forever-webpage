@@ -28,10 +28,21 @@ jobs:
       - name: Check out the website
         uses: actions/checkout@v5
 
+      - name: Check game source credentials
+        env:
+          GAME_SOURCE_TOKEN: ${{ secrets.GAME_SOURCE_TOKEN }}
+        run: |
+          if [ -z "$GAME_SOURCE_TOKEN" ]; then
+            echo "::error::Add GAME_SOURCE_TOKEN to this website repository's Actions secrets. It needs Contents read access to antena-g/shandalar-forever and antena-g/phase-shandalar."
+            exit 1
+          fi
+
       - name: Check out the development game
         uses: actions/checkout@v5
         with:
           repository: antena-g/shandalar-forever
+          token: ${{ secrets.GAME_SOURCE_TOKEN }}
+          persist-credentials: false
           ref: ${{ inputs.game_ref }}
           path: game-source
           submodules: recursive
