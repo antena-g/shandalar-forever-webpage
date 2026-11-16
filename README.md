@@ -60,3 +60,43 @@ Nothing comes from a UI kit; the decoration is the game's own art:
   symbol sprite.
 - Fonts are the ones the game shipped: Magic Medieval, Benguiat, Century
   Schoolbook and the symbol font.
+
+## Browser development preview
+
+The **try it out** menu opens `try-it-out.html`, with a click-to-launch game
+window and a larger view that keeps the site menu visible. The current preview
+supports 48 of 55 enemy encounters; saves stay in the browser's local storage.
+
+The site build packages the production game from `../shandalar-forever/web/`.
+To refresh that game, run from `../shandalar-forever/`:
+
+```sh
+cargo build --locked --release --target wasm32-unknown-unknown --bin shandalar
+wasm-bindgen target/wasm32-unknown-unknown/release/shandalar.wasm \
+  --out-dir web/pkg --target web
+```
+
+Use wasm-bindgen 0.2.129, matching the game's pinned dependency. Do not enable
+`duel-fixtures` for the public preview. Then run `uv run shandalar-site build`
+in this website directory. `--game-web /path/to/web` selects another prepared
+browser build. Missing runtime files stop the build with an actionable error.
+
+Publish the **whole `_site/` directory**, including `game/`. It contains real
+copies of the WASM, JavaScript snippets, portraits, creature sprites and card art;
+it does not depend on development-machine symlinks or remote artwork. Generated
+game files are build output, not tracked source. The game downloads only after
+Launch game is pressed. Serve `.wasm` as `application/wasm`; HTTP compression is
+recommended for the roughly 54 MB executable. A normal static HTTPS host works;
+no backend or account is required. Relative URLs also support a subdirectory.
+
+Use a desktop browser with WebGL 2, a mouse and keyboard. Saves are specific to
+the browser and hosting origin; changing the site's domain does not transfer
+existing local saves. The page does not publish itself or configure hosting.
+
+The existing manual GitHub Pages workflow now checks out an explicit game commit
+(with its Phase submodule), builds WASM without fixtures, and packages it into
+the site. Its default is the reviewed November 16 development version. Before
+running that remote workflow, the selected game commit and its referenced Phase
+commit must exist on their remotes. Local builds do not push or deploy anything.
+
+Packaging checks: `uv run python -m unittest discover -s tests -v`.

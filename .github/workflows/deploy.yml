@@ -5,6 +5,11 @@ name: Deploy website
 
 on:
   workflow_dispatch:
+    inputs:
+      game_ref:
+        description: "Game commit to build (must be pushed, including its Phase submodule)"
+        required: true
+        default: "4cb16c94b976aa039714812a0db79a2cede2cace"
 
 permissions:
   contents: read
@@ -23,13 +28,31 @@ jobs:
       - name: Check out the website
         uses: actions/checkout@v5
 
+      - name: Check out the development game
+        uses: actions/checkout@v5
+        with:
+          repository: antena-g/shandalar-forever
+          ref: ${{ inputs.game_ref }}
+          path: game-source
+          submodules: recursive
+
+      - name: Build the production browser game
+        working-directory: game-source
+        run: |
+          cargo build --locked --release --target wasm32-unknown-unknown --bin shandalar
+          cargo install wasm-bindgen-cli --locked --version 0.2.129
+          wasm-bindgen target/wasm32-unknown-unknown/release/shandalar.wasm --out-dir web/pkg --target web
+
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
 
+      - name: Check portable browser packaging
+        run: uv run --locked python -m unittest discover -s tests -v
+
       - name: Build the site
-        run: uv run --locked shandalar-site build --out _site
+        run: uv run --locked shandalar-site build --out _site --game-web game-source/web
 
       - name: Upload the site
         uses: actions/upload-pages-artifact@v4

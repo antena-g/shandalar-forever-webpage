@@ -11,7 +11,7 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from .build import DEFAULT_GAME_ASSETS, WEBSITE, build
+from .build import DEFAULT_GAME_ASSETS, DEFAULT_GAME_WEB, WEBSITE, build
 
 
 def main() -> None:
@@ -19,10 +19,11 @@ def main() -> None:
     parser.add_argument("command", choices=["build", "serve"])
     parser.add_argument("--out", type=Path, default=WEBSITE / "_site")
     parser.add_argument("--assets", type=Path, default=DEFAULT_GAME_ASSETS)
+    parser.add_argument("--game-web", type=Path, default=DEFAULT_GAME_WEB)
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
 
-    build(args.out, args.assets)
+    build(args.out, args.assets, args.game_web)
     if args.command == "serve":
         serve(args.out, args.port)
 

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shandalar Forever — Game</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #080705; color: #eadcb8; font: 16px Georgia, serif; }
+    canvas { display: block; width: 100vw !important; height: 100vh !important; }
+    #status { position: fixed; inset: 0; display: grid; place-content: center; text-align: center; padding: 2rem; }
+    #status[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <div id="status" role="status">Opening the gates of Shandalar…</div>
+  <script type="module">
+    const status = document.getElementById('status');
+    let failed = false;
+    const notify = type => parent.postMessage({ type }, location.origin);
+    function fail(error) {
+      if (failed) return;
+      failed = true;
+      status.hidden = false;
+      status.textContent = 'The game could not start. Please return to the launch button and try again.';
+      console.error(error);
+      notify('shandalar-error');
+    }
+    function watchCanvas() {
+      if (failed) return;
+      const canvas = document.querySelector('canvas');
+      if (!canvas) return requestAnimationFrame(watchCanvas);
+      canvas.addEventListener('contextmenu', event => event.preventDefault());
+      new ResizeObserver(() => {
+        const rect = canvas.getBoundingClientRect();
+        const width = Math.round(rect.width * devicePixelRatio);
+        const height = Math.round(rect.height * devicePixelRatio);
+        if (canvas.width !== width) canvas.width = width;
+        if (canvas.height !== height) canvas.height = height;
+      }).observe(canvas);
+      status.hidden = true;
+      notify('shandalar-ready');
+    }
+    try {
+      const { default: init } = await import('./pkg/shandalar.js');
+      init().catch(fail);
+      watchCanvas();
+    } catch (error) { fail(error); }
+  </script>
+</body>
+</html>

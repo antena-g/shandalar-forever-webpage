@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Try it out — Shandalar Forever{% endblock %}
+{% block description %}Play the Shandalar Forever development preview in your browser. Explore the world, build your deck and challenge its inhabitants.{% endblock %}
+{% block body_class %}play-page{% endblock %}
+{% block content %}
+<section class="play-intro">
+  <p class="hero__eyebrow">A world of magic, back within reach</p>
+  <h1>Enter Shandalar</h1>
+  <p>Your next adventure is one click away. Try the development version, right here in your browser.</p>
+</section>
+<section class="play-shell" aria-label="Browser game">
+  <div class="game-window">
+    <div class="game-window__bar">
+      <span class="game-window__title"><span class="preview-dot" aria-hidden="true"></span> Shandalar Forever <span class="preview-badge">Development preview</span></span>
+      <button class="game-size" id="game-size" type="button" aria-pressed="false">Larger view</button>
+    </div>
+    <div class="game-stage">
+      <iframe id="game-frame" title="Shandalar Forever game" data-src="{{ root }}game/index.html" hidden></iframe>
+      <div class="game-cover" id="game-cover">
+        <img src="{{ root }}img/emblem.png" width="72" height="72" alt="">
+        <h2>The five colours await</h2>
+        <p>Build a deck. Wander the realm. Face its challengers.</p>
+        <button class="button button--large" id="game-launch" type="button">Launch game</button>
+        <p class="game-cover__note">Desktop browser · Mouse &amp; keyboard<br>The first launch downloads about 54 MB, plus artwork as you explore.</p>
+      </div>
+    </div>
+    <div class="game-window__status"><span id="game-status" role="status">Ready when you are.</span><span>Original world. A new journey.</span></div>
+  </div>
+  <noscript><p class="play-notice">Enable JavaScript to launch the game.</p></noscript>
+  <div class="play-notes">
+    <article><h2>Make yourself at home</h2><p>Click inside the game to give it focus. Right-click cards for available actions. Choose a character to begin your journey.</p></article>
+    <article><h2>Your adventure stays here</h2><p>Saves are stored in this browser on this device. Use the game’s save options before leaving. Clearing site data also clears your saves.</p></article>
+    <article><h2>Help shape the next chapter</h2><p>This is a work in progress: 48 of 55 enemy encounters are supported. If something goes wrong, note the enemy, card and steps that led to it.</p></article>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ root }}js/play.js" defer></script>{% endblock %}

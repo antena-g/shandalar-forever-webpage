@@ -31,6 +31,7 @@ SCREENSHOT_CAPTIONS = [
 # The game files the site uses, copied from the game repository by
 # scripts/sync_game_assets.py.
 DEFAULT_GAME_ASSETS = WEBSITE / "game-assets"
+DEFAULT_GAME_WEB = WEBSITE.parent / "shandalar-forever" / "web"
 
 # Links shown on the download page. While a link is empty, the page says it is
 # coming soon instead of showing a broken button.
@@ -62,7 +63,33 @@ COLOR_FILTERS = [
 ]
 
 
-def build(out: Path, game_assets: Path = DEFAULT_GAME_ASSETS) -> None:
+def publish_game(source: Path, out: Path) -> None:
+    """Bundle the production browser runtime and its three external art collections."""
+    files = ["pkg/shandalar.js", "pkg/shandalar_bg.wasm"]
+    folders = [
+        "pkg/snippets",
+        "assets/original/portraits",
+        "assets/original/converted/SPR",
+        "assets/original/converted/CardArt/medart",
+    ]
+    for name in files + folders:
+        if not (source / name).exists():
+            raise FileNotFoundError(
+                f"Missing browser game file: {source / name}. "
+                "Build the production browser game first; see website/README.md."
+            )
+    for name in files:
+        target = out / "game" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source / name, target)
+    for name in folders:
+        shutil.copytree(source / name, out / "game" / name, dirs_exist_ok=True)
+
+
+def build(
+    out: Path, game_assets: Path = DEFAULT_GAME_ASSETS, game_web: Path = DEFAULT_GAME_WEB
+) -> None:
+    publish_game(game_web, out)
     cards = gallery_cards(game_assets)
     creatures = load_creatures(
         CREATURES, game_assets / "raw" / "DECKS", read_cards(game_assets / "raw" / "CARDS.DAT")
@@ -109,6 +136,7 @@ def build(out: Path, game_assets: Path = DEFAULT_GAME_ASSETS) -> None:
                 "previewable_cards": {card.id for card in cards},
             },
         ),
+        "try-it-out.html": ("try-it-out.html", {}),
         "cards.html": ("cards.html", {"cards": cards, "color_filters": COLOR_FILTERS}),
         "devlog.html": ("devlog.html", {"posts": posts}),
     }
